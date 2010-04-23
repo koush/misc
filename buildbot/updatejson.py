@@ -1,13 +1,12 @@
 import re
 import simplejson
+import sys
 import zipfile
 
 class AndroidBuild:
     def __init__(self, filename):
         self.filename = filename
         self.buildprop = {}
-        
-        print "Loading zipfile..."
         self.zip = zipfile.ZipFile(filename, "r")
 
     def getBuildProp(self, key):
@@ -45,8 +44,22 @@ class AndroidBuild:
         oldJSON[self.getDevice()].insert(0, newEntry)
         return simplejson.dumps(oldJSON)
 
-if __name__ == "__main__":
-    oldJSON = simplejson.dumps({"passion":[]})
+    def moveFile(self, destinationdir):
+        fullPath = destinationdir + "/" + self.getFilename()
+        shutil.move(self.filename, fullPath)
+        os.chmod(fullPath, 0644)
 
-    ab = AndroidBuild("cyanogen_passion-ota-04232010.zip")
-    print ab.dumpJSON(oldJSON)
+def main():
+    if len(sys.argv) == 1:
+        print "Usage: %s <filename>" % sys.argv[0]
+        sys.exit(1)
+    else:
+        fn = sys.argv[1]
+        oldJSON = open("nightly.js").read()
+
+        ab = AndroidBuild(fn)
+        print ab.dumpJSON(oldJSON)
+        ab.moveFile("./blah")
+
+if __name__ == "__main__":
+     main()
