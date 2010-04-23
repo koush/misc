@@ -1,6 +1,8 @@
 import re
+import shutil
 import simplejson
 import sys
+import os
 import zipfile
 
 class AndroidBuild:
