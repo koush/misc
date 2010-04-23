@@ -60,8 +60,11 @@ def main():
         oldJSON = open("nightly.js").read()
 
         ab = AndroidBuild(fn)
-        print ab.dumpJSON(oldJSON)
-        ab.moveFile("./blah")
+        ab.moveFile("/home/buildbot/nightly/")
+        
+        f = open("nightly.js", "w")
+        f.write(ab.dumpJSON(oldJSON))
+        f.close()
 
 if __name__ == "__main__":
      main()
