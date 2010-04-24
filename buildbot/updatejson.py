@@ -41,9 +41,14 @@ class AndroidBuild:
             "date": self.getBuildDate(),
             "url": "http://buildbot.teamdouche.net/nightly/%s" % self.getFilename()
         }
-
         oldJSON = simplejson.loads(oldJSON)
-        oldJSON[self.getDevice()].insert(0, newEntry)
+
+        shouldAdd = True
+        for build in oldJSON[self.getDevice()]:
+            if build['date'] == newEntry['date']:
+                shouldAdd = False
+
+        if (shouldAdd) oldJSON[self.getDevice()].insert(0, newEntry)
         return simplejson.dumps(oldJSON)
 
     def moveFile(self, destinationdir):
