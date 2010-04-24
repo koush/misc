@@ -48,7 +48,7 @@ class AndroidBuild:
             if build['date'] == newEntry['date']:
                 shouldAdd = False
 
-        if (shouldAdd) oldJSON[self.getDevice()].insert(0, newEntry)
+        if (shouldAdd): oldJSON[self.getDevice()].insert(0, newEntry)
         return simplejson.dumps(oldJSON)
 
     def moveFile(self, destinationdir):
